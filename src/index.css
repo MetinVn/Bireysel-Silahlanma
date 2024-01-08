@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
+::-moz-selection { 
+    color: pink;
+    background: black;
+  }
+  
+  ::selection {
+    color: pink;
+    background: black;
+  }
+
+    :root{
+      --color-red:rgba(253, 99, 132, 0.2);
+      --color-blue:rgba(54, 162, 235, 0.2);
+      --color-shi:rgba(255, 206, 86, 0.2);
+    }
