@@ -3,14 +3,14 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import transition from "../Transition";
-function Main (){
+function Main() {
   return (
-    <div className="min-w-fit w-full bg-white">
-      <Header/>
-      <Hero/>
-      <Footer/>
-    </div>
+    <>
+      <Header />
+      <Hero />
+      <Footer />
+    </>
   );
-};
+}
 
 export default transition(Main);

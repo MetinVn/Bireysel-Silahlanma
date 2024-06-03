@@ -8,7 +8,6 @@ const Details = () => {
   return (
     <>
       <div className="fixed top-0 flex items-center h-[30px] lg:h-[50px] justify-end z-[14] min-w-fit w-full bg-white shadow-lg shadow-black/20">
-        {/*Header image*/}
         <div className="flex flex-col justify-end items-center overflow-hidden m-auto bg-white shadow-lg rounded-full shadow-black/40 mt-[-30px] w-[80px] h-[80px] md:mt-[-60px] lg:mt-[-80px] md:w-[130px] md:h-[130px] lg:w-[180px] lg:h-[190px]">
           <img
             src={photo}
@@ -16,11 +15,9 @@ const Details = () => {
             alt="photo"
           />
         </div>
-        {/*Header image*/}
       </div>
       <div className="mt-auto md:mt-[25px] lg:mt-[50px] bg-white">
         <div className="h-[150px] md:h-[240px] flex justify-between items-center bg-[#FDE83D]">
-          {/*Flex 1*/}
           <div className="h-[40px] md:h-[120px] flex items-center m-auto lg:h-[240px]">
             <img
               src={photor}
@@ -37,12 +34,14 @@ const Details = () => {
         </div>
 
         <div className="m-auto h-fit w-full flex flex-col items-center text-center">
-            <div className="w-full max-w-[780px] text-start">
-              <Link to="/Bireysel-Silahlanma" className="underline">Geri dön</Link>
-            </div>
-            <p className="text-lg underline-offset-2 pb-2 md:text-3xl md:underline-offset-[5px] md:pb-5 underline">
-              Yasalar
-            </p>
+          <div className="w-full max-w-[780px] text-start">
+            <Link to="/Bireysel-Silahlanma" className="underline">
+              Geri dön
+            </Link>
+          </div>
+          <p className="text-lg underline-offset-2 pb-2 md:text-3xl md:underline-offset-[5px] md:pb-5 underline">
+            Yasalar
+          </p>
           <ul className="p-3 mx-3 md:m-auto text-xs md:text-xl md:p-10 bg-slate-300 rounded-lg">
             <li>Valilik Makamına Dilekçe</li>
             <li>Silah Satın Alma İstek Formu</li>
@@ -59,8 +58,7 @@ const Details = () => {
           <a
             className="text-sm md:text-xl underline text-red-600 hover:text-red-400 duration-300"
             href="http://www.vakfikebir.gov.tr/silah-tasima-ve-bulundurma-ruhsatlari-icin-istenen-belgeler"
-            target="blank"
-          >
+            target="blank">
             Gerekli belgelerin devamını görmek ve daha fazla bilgi edinmek için
             buraya tıklayın
           </a>
