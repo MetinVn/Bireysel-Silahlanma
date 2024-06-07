@@ -15,7 +15,6 @@ const USAMap = () => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [crimeLimit, setCrimeLimit] = useState(1);
   const [showDots, setShowDots] = useState(false);
-  const [markColor, setMarkColor] = useState("#2a9d8f");
 
   const getDataByState = (stateName, category) => {
     const stateData = crimeData.find(
@@ -24,72 +23,8 @@ const USAMap = () => {
     return stateData ? stateData[category] || 0 : 0;
   };
 
-  // const calculateStateLimits = (state) => {
-  //   const below15000 = [];
-  //   const between15000And50000 = [];
-  //   const above50000 = [];
-
-  //   usMapData.features.forEach((d) => {
-  //     const stateName = d.properties.NAME;
-  //     const stateCrimeData = crimeData.find(
-  //       (entry) => entry.state_name === stateName && entry.year === 2019
-  //     );
-
-  //     if (stateCrimeData) {
-  //       const crimeRate = stateCrimeData["violent_crime"];
-  //       if (crimeRate < 15000) {
-  //         below15000.push(d);
-  //       } else if (crimeRate > 15000 && crimeRate < 50000) {
-  //         between15000And50000.push(d);
-  //       } else if (crimeRate > 50000) {
-  //         above50000.push(d);
-  //       }
-  //     }
-  //   });
-  //   // console.log("below 15000: " + below15000);
-  //   // console.log("between 15000 and 50000 : " + between15000And50000);
-  //   // console.log("above 50000: " + above50000);
-  //   below15000.map((e) => console.log("*" + e.properties?.NAME));
-  //   return { below15000, between15000And50000, above50000 };
-  // };
-
-  // calculateStateLimits();
-  // const markColors = (selectedCategory) => {
-  //   switch (selectedCategory) {
-  //     case "violent_crime":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "homicide":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "robbery":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "aggravated_assault":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "property_crime":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "burglary":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "larceny":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     case "motor_vehicle_theft":
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //     default:
-  //       setMarkColor("#2a9d8f");
-  //       break;
-  //   }
-  // };
-
   const handleCategoryChange = (e) => {
-    // markColors(e.target.value);
     setSelectedCategory(e.target.value);
-    // console.log("handleCategoryChange is fired");
   };
 
   const categoryTranslations = {
@@ -153,7 +88,6 @@ const USAMap = () => {
     };
 
     const updateColors = (category) => {
-      // console.log("updateColors is fired");
       const colorScale = colorScales[category];
 
       svg.selectAll(".state").attr("fill", (d) => {
@@ -166,12 +100,10 @@ const USAMap = () => {
     };
 
     const drawDots = (category, limit) => {
-      // console.log("drawDots is fired");
       svg.selectAll(".dot").remove();
       svg.selectAll(".line").remove();
 
       const statesWithDots = usMapData.features.filter((d) => {
-        // console.log("statesWithDots is fired");
         const stateName = d.properties.NAME;
         const stateCrimeData = crimeData.find(
           (entry) => entry.state_name === stateName && entry.year === 2019
@@ -198,14 +130,13 @@ const USAMap = () => {
         .attr("cx", (d) => projection(d3.geoCentroid(d))[0])
         .attr("cy", (d) => projection(d3.geoCentroid(d))[1])
         .attr("r", 5)
-        .attr("fill", markColor)
+        .attr("fill", "#2a9d8f")
         .style("opacity", 0)
         .transition()
         .duration(1000)
         .style("opacity", 1);
 
       if (showDots && dots) {
-        // console.log("if statement inside drawDots is fired");
         const lineGenerator = d3
           .line()
           .x((d) => projection(d3.geoCentroid(d))[0])
@@ -218,7 +149,7 @@ const USAMap = () => {
           .datum(lineData)
           .attr("class", "line")
           .attr("fill", "none")
-          .attr("stroke", markColor)
+          .attr("stroke", "#2a9d8f")
           .attr("stroke-width", 2)
           .attr("d", lineGenerator)
           .style("stroke-dasharray", function () {
