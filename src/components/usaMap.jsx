@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import usMapData from "../gz_2010_us_040_00_500k.json";
 import crimeData from "../estimated_crimes_1979_2019.json";
 import Dashboard from "./Dashboard.jsx";
-import { MenuItem, Select, Button, ButtonGroup, Tooltip } from "@mui/material";
+import { MenuItem, Select, Button, ButtonGroup } from "@mui/material";
 
 const USAMap = () => {
   const svgRef = useRef();
@@ -148,8 +148,8 @@ const USAMap = () => {
       burglary: d3.scaleSequential(d3.interpolateOranges).domain([0, 300000]),
       larceny: d3.scaleSequential(d3.interpolateBuGn).domain([0, 400000]),
       motor_vehicle_theft: d3
-        .scaleSequential(d3.interpolatePurples)
-        .domain([0, 60000]),
+        .scaleSequential(d3.interpolatePuOr)
+        .domain([0, 40000]),
     };
 
     const updateColors = (category) => {
@@ -316,8 +316,8 @@ const USAMap = () => {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center">
-      <div className="lg:w-3/4 xl:w-2/3 w-full px-4 relative">
-        <svg ref={svgRef} className="w-full"></svg>
+      <div className="lg:w-2/4 xl:w-2/3 px-4 relative">
+        <svg ref={svgRef} width={550} height={300} className="w-full"></svg>
         {tooltipVisible && (
           <div
             style={{
@@ -333,7 +333,7 @@ const USAMap = () => {
           </div>
         )}
       </div>
-      <div className="lg:w-1/4 xl:w-1/3 px-4 py-8">
+      <div className="lg:w-1/4 xl:w-1/3 px-4">
         <div className="mb-4">
           <Select
             value={selectedCategory}
@@ -346,7 +346,7 @@ const USAMap = () => {
             ))}
           </Select>
         </div>
-        <div className="mb-4">
+        <div>
           <ButtonGroup variant="contained" color="primary">
             <Button onClick={toggleDots}>
               {showDots ? "Noktaları Gizle" : "Noktaları Göster"}
