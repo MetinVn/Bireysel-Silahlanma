@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from "react";
 const Header = lazy(() => import("../components/Header"));
 
 const Hero = lazy(() => import("../components/Hero"));
-const UsaMap = lazy(() => import("../components/UsaMap"));
+const UsaMap = lazy(() => import("../components/Usamap"));
 const Footer = lazy(() => import("../components/Footer"));
 
 function Main() {
