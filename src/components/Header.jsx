@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 import photo from "../icons/photo.jpg";
 
-// Lazy load the icon
 const LazyIcon = React.lazy(() =>
   import("react-icons/fa6").then((module) => ({
     default: module.FaArrowRightLong,
@@ -14,7 +13,6 @@ const LazyIcon = React.lazy(() =>
 const Header = React.memo(() => {
   const [showButton, setShowButton] = useState(false);
 
-  // Debounced scroll handler
   const handleScroll = useCallback(() => {
     setShowButton(window.scrollY > 100);
   }, []);
@@ -56,7 +54,6 @@ const Header = React.memo(() => {
   );
 });
 
-// Debounce function
 const debounce = (func, wait) => {
   let timeout;
   return (...args) => {

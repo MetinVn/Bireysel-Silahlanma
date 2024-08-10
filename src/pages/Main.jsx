@@ -1,11 +1,9 @@
 import React, { Suspense, lazy } from "react";
 
-// Critical components (loaded immediately)
 const Header = lazy(() => import("../components/Header"));
 
-// Non-critical components (loaded when needed)
 const Hero = lazy(() => import("../components/Hero"));
-const USAMap = lazy(() => import("../components/usaMap"));
+const UsaMap = lazy(() => import("../components/UsaMap"));
 const Footer = lazy(() => import("../components/Footer"));
 
 function Main() {
@@ -18,7 +16,7 @@ function Main() {
         <Hero />
       </Suspense>
       <Suspense fallback={<div>Loading Map...</div>}>
-        <USAMap />
+        <UsaMap />
       </Suspense>
       <Suspense fallback={<div>Loading Footer...</div>}>
         <Footer />

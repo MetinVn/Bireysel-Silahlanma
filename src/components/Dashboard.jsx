@@ -9,7 +9,6 @@ const Dashboard = ({ data }) => {
   const [year, setYear] = useState(2019);
   const [state, setState] = useState("California");
 
-  // Memoize the years list to avoid recalculating it on every render
   const years = useMemo(() => [...new Set(data.map((d) => d.year))], [data]);
 
   const handleYearChange = (e) => setYear(e.target.value);
