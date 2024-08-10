@@ -1,16 +1,30 @@
-import React from "react";
-import Hero from "../components/Hero";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import transition from "../Transition";
+import React, { Suspense, lazy } from "react";
+
+// Critical components (loaded immediately)
+const Header = lazy(() => import("../components/Header"));
+
+// Non-critical components (loaded when needed)
+const Hero = lazy(() => import("../components/Hero"));
+const USAMap = lazy(() => import("../components/usaMap"));
+const Footer = lazy(() => import("../components/Footer"));
+
 function Main() {
   return (
     <>
-      <Header />
-      <Hero />
-      <Footer />
+      <Suspense fallback={<div>Loading Header...</div>}>
+        <Header />
+      </Suspense>
+      <Suspense fallback={<div>Loading Hero...</div>}>
+        <Hero />
+      </Suspense>
+      <Suspense fallback={<div>Loading Map...</div>}>
+        <USAMap />
+      </Suspense>
+      <Suspense fallback={<div>Loading Footer...</div>}>
+        <Footer />
+      </Suspense>
     </>
   );
 }
 
-export default transition(Main);
+export default Main;

@@ -27,14 +27,14 @@ This project visualizes crime rates across the USA using a React component with 
 ## Project Structure
 
 - `src/components`: Contains the main React components for the map and dashboard.
-- `src/styles`: Custom Tailwind CSS configurations and styles.
-- `src/data`: JSON files with crime data and GeoJSON for the map.
-- `src/utils`: Utility functions for data processing and visualization.
+- `src/icons`: Custom icons for fixed sections.
+- `src/.json`: JSON files with crime data and GeoJSON for the map.
+- `src/pages`: Main pages of application.
 
 ## Customization
 
 - **Tailwind CSS**: Modify `tailwind.config.js` to adjust the styling.
-- **Crime Data**: Update the JSON files in `src/data` with new or additional data.
+- **Crime Data**: Update the JSON files in `src/.json` with new or additional data.
 - **Map Features**: Adjust the D3.js code in the map component for custom visualizations.
 
 ## Contributing

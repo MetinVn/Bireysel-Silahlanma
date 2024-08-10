@@ -1,52 +1,44 @@
-import Chart from "react-apexcharts";
-const Dashboard = (props) => {
+import React, { lazy, Suspense, useState, useMemo } from "react";
+
+const PieChart = lazy(() => import("./PieChart"));
+const Form = lazy(() => import("./Form.jsx"));
+import { categoryTranslations } from "../hooks/useDashboardData";
+import { stateNames } from "../utils/Reuse";
+
+const Dashboard = ({ data }) => {
+  const [year, setYear] = useState(2019);
+  const [state, setState] = useState("California");
+
+  // Memoize the years list to avoid recalculating it on every render
+  const years = useMemo(() => [...new Set(data.map((d) => d.year))], [data]);
+
+  const handleYearChange = (e) => setYear(e.target.value);
+  const handleStateChange = (e) => setState(e.target.value);
+
   return (
-    <div className="flex flex-col items-center gap-4 lg:w-full">
-      <p className="mt-3 text-[12px] md:mt-5 md:mb-2 lg:mb-5 md:text-sm lg:text-xl font-semibold md:tracking-tighter lg:tracking-tight rounded-md md:leading-[10px] lg:leading-[18px]">
-        2019 yılında ABD'de yaşanan cinayetler
-      </p>
-      <div className="h-[200px] md:h-[300px] w-fit flex items-center justify-center">
-        <Chart
-          id="chart"
-          type="donut"
-          width={400}
-          series={props.data.percentages}
-          options={{
-            labels: props.data.crimeTypes,
-            title: {
-              text: `${props.data.title}`,
-            },
-            plotOptions: {
-              pie: {
-                donut: {
-                  labels: {
-                    show: true,
-                    total: {
-                      show: true,
-                      fontSize: 20,
-                      label: "Toplam",
-                    },
-                  },
-                  size: 75,
-                },
-              },
-            },
-            dataLabels: {
-              enabled: true,
-            },
-            colors: [
-              "#669bbc",
-              "#FFB6C1",
-              "#8A2BE2",
-              "#32CD32",
-              "#FFD700",
-              "#4169E1",
-              "#FFA500",
-              "#9370DB",
-            ],
-          }}
+    <div className="flex flex-col items-center justify-center p-5">
+      <Suspense fallback={<div>Loading...</div>}>
+        <PieChart
+          data={data}
+          year={year}
+          state={state}
+          categoryTranslations={categoryTranslations}
         />
-      </div>
+        <div className="flex flex-row w-full gap-10">
+          <Form
+            label="Şehir seçin"
+            onChange={handleYearChange}
+            options={years}
+            value={year}
+          />
+          <Form
+            label="Eyalet seçin"
+            onChange={handleStateChange}
+            options={stateNames}
+            value={state}
+          />
+        </div>
+      </Suspense>
     </div>
   );
 };

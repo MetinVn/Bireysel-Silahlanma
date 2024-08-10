@@ -1,22 +1,31 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Details from "./components/Details";
-import Main from "./pages/Main";
-import Error from "./pages/Error.jsx";
+import ErrorBoundary from "./GlobalError.jsx";
 import "./styles.css";
+
+const Details = lazy(() => import("./pages/Details.jsx"));
+const Main = lazy(() => import("./pages/Main"));
+const Error = lazy(() => import("./pages/Error.jsx"));
+
 function App() {
   const location = useLocation();
   return (
-    <>
+    <ErrorBoundary>
       <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route exact index path="/Bireysel-Silahlanma" element={<Main />} />
-          <Route exact path="/details" element={<Details />} />
-          <Route path="/*" element={<Error />} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes location={location} key={location.pathname}>
+            <Route exact index path="/Bireysel-Silahlanma" element={<Main />} />
+            <Route
+              exact
+              path="/Bireysel-Silahlanma/details"
+              element={<Details />}
+            />
+            <Route exact path="*" element={<Error />} />
+          </Routes>
+        </Suspense>
       </AnimatePresence>
-    </>
+    </ErrorBoundary>
   );
 }
 

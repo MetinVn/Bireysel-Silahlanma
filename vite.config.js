@@ -1,8 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/Bireysel-Silahlanma/",
+  base: "/Bireysel-Silahlanma",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "usa-map": ["./src/components/USAMap.jsx"],
+          "bar-dashboard": ["./src/components/BarDashboard.jsx"],
+          dashboard: ["./src/components/Dashboard.jsx"],
+          d3: ["d3"],
+          "react-icons": ["react-icons"],
+        },
+      },
+    },
+  },
 });
