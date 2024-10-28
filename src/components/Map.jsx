@@ -1,21 +1,8 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  Suspense,
-  lazy,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
 import * as d3 from "d3";
 import MapControls from "./MapControls.jsx";
 import Tooltip from "./Tooltip.jsx";
-import {
-  getDataByState,
-  categorizeStates,
-  extractStateNames,
-  getDataByStateAndYear,
-} from "../utils/Reuse.js";
+import { getDataByState, categorizeStates, extractStateNames, getDataByStateAndYear } from "../utils/Reuse.js";
 import { useDashboardData } from "../hooks/useDashboardData.jsx";
 import usMapData from "../gz_2010_us_040_00_500k.json";
 import crimeData from "../crime-data.json";
@@ -23,7 +10,7 @@ import crimeData from "../crime-data.json";
 const BarDashboard = lazy(() => import("./BarDashboard.jsx"));
 const Dashboard = lazy(() => import("./Dashboard.jsx"));
 
-const UsaMap = () => {
+const Map = () => {
   const svgRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("violent_crime");
   const [hoveredState, setHoveredState] = useState("");
@@ -35,45 +22,27 @@ const UsaMap = () => {
   const width = 960;
   const height = 600;
 
-  const getCategorizedStates = useCallback(
-    () => categorizeStates(selectedCategory),
-    [selectedCategory]
-  );
+  const getCategorizedStates = useCallback(() => categorizeStates(selectedCategory), [selectedCategory]);
 
-  const { statesBelow15000, statesBetween15000And50000, statesAbove50000 } =
-    useMemo(() => getCategorizedStates(), [getCategorizedStates]);
+  const { statesBelow15000, statesBetween15000And50000, statesAbove50000 } = useMemo(
+    () => getCategorizedStates(),
+    [getCategorizedStates]
+  );
 
   const statesWithDots = useMemo(() => {
     switch (crimeLimit) {
       case 1:
-        return usMapData.features.filter((d) =>
-          statesBelow15000.includes(d.properties.NAME)
-        );
+        return usMapData.features.filter((d) => statesBelow15000.includes(d.properties.NAME));
       case 2:
-        return usMapData.features.filter((d) =>
-          statesBetween15000And50000.includes(d.properties.NAME)
-        );
+        return usMapData.features.filter((d) => statesBetween15000And50000.includes(d.properties.NAME));
       case 3:
-        return usMapData.features.filter((d) =>
-          statesAbove50000.includes(d.properties.NAME)
-        );
+        return usMapData.features.filter((d) => statesAbove50000.includes(d.properties.NAME));
       default:
         return [];
     }
-  }, [
-    crimeLimit,
-    statesBelow15000,
-    statesBetween15000And50000,
-    statesAbove50000,
-  ]);
+  }, [crimeLimit, statesBelow15000, statesBetween15000And50000, statesAbove50000]);
 
-  const {
-    selectedYear,
-    selectedCity,
-    data,
-    handleYearChange,
-    handleCityChange,
-  } = useDashboardData();
+  const { selectedYear, selectedCity, data, handleYearChange, handleCityChange } = useDashboardData();
 
   const handleCategoryChange = useCallback(
     (e) => {
@@ -84,20 +53,14 @@ const UsaMap = () => {
     [hoveredState]
   );
 
-  const handleHoveredState = useCallback(
-    (stateName) => setHoveredState(stateName),
-    []
-  );
+  const handleHoveredState = useCallback((stateName) => setHoveredState(stateName), []);
 
   const handleMouseOut = useCallback(() => {
     setTooltipVisible(false);
     setTooltipPos({ x: 0, y: 0 });
   }, []);
 
-  const handleMouseMove = useCallback(
-    (event) => setTooltipPos({ x: event.pageX, y: event.pageY }),
-    []
-  );
+  const handleMouseMove = useCallback((event) => setTooltipPos({ x: event.pageX, y: event.pageY }), []);
 
   const handleMouseOver = useCallback(
     (event, d) => {
@@ -109,10 +72,7 @@ const UsaMap = () => {
     [handleHoveredState]
   );
 
-  const toggleDots = useCallback(
-    () => setShowDots((prevShowDots) => !prevShowDots),
-    []
-  );
+  const toggleDots = useCallback(() => setShowDots((prevShowDots) => !prevShowDots), []);
 
   useEffect(() => {
     const crimeValue = getDataByState(hoveredState, selectedCategory);
@@ -128,10 +88,7 @@ const UsaMap = () => {
       .scale(1000);
     const path = d3.geoPath().projection(projection);
 
-    svg
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .style("width", "100%")
-      .style("height", "auto");
+    svg.attr("viewBox", `0 0 ${width} ${height}`).style("width", "100%").style("height", "auto");
 
     svg
       .selectAll("path")
@@ -151,23 +108,15 @@ const UsaMap = () => {
     const svg = d3.select(svgRef.current);
 
     const stateNames2019 = extractStateNames(crimeData);
-    const crimeValues = stateNames2019.map((stateName) =>
-      getDataByStateAndYear(2019, stateName, selectedCategory)
-    );
+    const crimeValues = stateNames2019.map((stateName) => getDataByStateAndYear(2019, stateName, selectedCategory));
     const maxCrimeValue = d3.max(crimeValues);
     const minCrimeValue = d3.min(crimeValues);
 
-    const colorScale = d3
-      .scaleSequential(d3.interpolateBlues)
-      .domain([minCrimeValue, maxCrimeValue]);
+    const colorScale = d3.scaleSequential(d3.interpolateBlues).domain([minCrimeValue, maxCrimeValue]);
 
     svg.selectAll(".state").attr("fill", (d) => {
       const stateName = d.properties.NAME;
-      const stateCrimeValue = getDataByStateAndYear(
-        2019,
-        stateName,
-        selectedCategory
-      );
+      const stateCrimeValue = getDataByStateAndYear(2019, stateName, selectedCategory);
       return colorScale(stateCrimeValue || minCrimeValue);
     });
   }, [selectedCategory]);
@@ -255,11 +204,7 @@ const UsaMap = () => {
       />
       <div className="relative flex flex-col items-center w-full mt-20">
         <svg ref={svgRef} width={600} height={300}></svg>
-        <Tooltip
-          content={tooltipContent}
-          pos={tooltipPos}
-          visible={tooltipVisible}
-        />
+        <Tooltip content={tooltipContent} pos={tooltipPos} visible={tooltipVisible} />
       </div>
       <div className="w-full flex flex-col items-center px-4">
         <Suspense fallback={<div>Loading BarDashboard...</div>}>
@@ -279,4 +224,4 @@ const UsaMap = () => {
   );
 };
 
-export default UsaMap;
+export default Map;
