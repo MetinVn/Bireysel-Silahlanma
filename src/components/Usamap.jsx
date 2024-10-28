@@ -10,7 +10,7 @@ import crimeData from "../crime-data.json";
 const BarDashboard = lazy(() => import("./BarDashboard.jsx"));
 const Dashboard = lazy(() => import("./Dashboard.jsx"));
 
-const Map = () => {
+const USAMap = () => {
   const svgRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState("violent_crime");
   const [hoveredState, setHoveredState] = useState("");
@@ -224,4 +224,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default USAMap;

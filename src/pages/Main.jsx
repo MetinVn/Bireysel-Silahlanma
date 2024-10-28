@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 
 const Header = lazy(() => import("../components/Header"));
 const Hero = lazy(() => import("../components/Hero"));
-const Map = lazy(() => import("../components/Map"));
+const USAMap = lazy(() => import("../components/Usamap"));
 const Footer = lazy(() => import("../components/Footer"));
 
 function Main() {
@@ -15,7 +15,7 @@ function Main() {
         <Hero />
       </Suspense>
       <Suspense fallback={<div>Loading Map...</div>}>
-        <Map />
+        <USAMap />
       </Suspense>
       <Suspense fallback={<div>Loading Footer...</div>}>
         <Footer />
