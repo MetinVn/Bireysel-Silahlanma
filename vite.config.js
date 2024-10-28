@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "usa-map": ["src/components/USAMap.jsx"],
+          "usa-map": ["src/components/Usamap.jsx"],
           "bar-dashboard": ["src/components/BarDashboard.jsx"],
           dashboard: ["src/components/Dashboard.jsx"],
           d3: ["d3"],
