@@ -1,4 +1,3 @@
-import React from "react";
 const Error = () => {
   return (
     <div className="h-screen bg-slate-700 w-full flex flex-col gap-2 justify-center items-center">

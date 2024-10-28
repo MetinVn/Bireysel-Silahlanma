@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useMemo } from "react";
+import { lazy, Suspense, useState, useMemo } from "react";
 
 const PieChart = lazy(() => import("./PieChart"));
 const Form = lazy(() => import("./Form.jsx"));

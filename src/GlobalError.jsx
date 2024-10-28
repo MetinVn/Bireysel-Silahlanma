@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import GlobalError from "./pages/GlobalError";
 
 class ErrorBoundary extends Component {

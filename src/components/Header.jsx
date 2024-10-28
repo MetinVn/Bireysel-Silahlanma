@@ -27,11 +27,7 @@ const Header = React.memo(() => {
   return (
     <div className="fixed top-0 flex items-center h-[50px] z-[14] w-full bg-white shadow-lg shadow-black/20">
       <div className="flex flex-col justify-end items-center overflow-hidden m-auto bg-white shadow-lg rounded-full shadow-black/40 mt-[-80px] w-[180px] h-[190px]">
-        <img
-          src={photo}
-          className="w-[140px] h-[110px] object-cover rounded-full"
-          alt="photo"
-        />
+        <img src={photo} className="w-[140px] h-[110px] object-cover rounded-full" alt="photo" />
       </div>
       {showButton && (
         <motion.button

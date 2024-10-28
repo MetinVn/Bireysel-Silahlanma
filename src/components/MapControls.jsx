@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, ButtonGroup } from "@mui/material";
 import Form from "./Form.jsx";
 import { categories, getTranslatedCategories } from "../utils/Reuse.js";

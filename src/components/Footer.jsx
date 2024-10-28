@@ -70,9 +70,7 @@ const Footer = () => {
         ))}
       </div>
       <div className="text-center mt-6 border-t border-gray-300 pt-4">
-        <p className="text-sm text-gray-600">
-          © {new Date().getFullYear()} Metin Isakhanli. All rights reserved.
-        </p>
+        <p className="text-sm text-gray-600">© {new Date().getFullYear()} Metin Isakhanli. All rights reserved.</p>
       </div>
     </footer>
   );

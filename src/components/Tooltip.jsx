@@ -1,5 +1,3 @@
-import React from "react";
-
 const Tooltip = ({ content, pos, visible }) => {
   if (!visible) return null;
 
