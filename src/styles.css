@@ -71,7 +71,7 @@ svg path:hover {
   }
   75%,
   100% {
-    transform: scale(3); /* Makes it grow 3x larger */
+    transform: scale(3);
     opacity: 0;
   }
 }
