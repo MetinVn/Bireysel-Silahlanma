@@ -1,9 +1,9 @@
-import React, { memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 import Chart from "react-apexcharts";
 import { stateNames } from "../utils/Reuse";
 import Form from "./Form.jsx";
 
-const BarDashboard = React.forwardRef((props, _) => {
+const BarDashboard = (props, _) => {
   const {
     selectedYear,
     selectedCity,
@@ -14,7 +14,7 @@ const BarDashboard = React.forwardRef((props, _) => {
 
   const yearsRange = useMemo(
     () => [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
-    []
+    [],
   );
 
   const chartOptions = useMemo(
@@ -90,7 +90,7 @@ const BarDashboard = React.forwardRef((props, _) => {
         borderColor: "#e9ecef",
       },
     }),
-    [data]
+    [data],
   );
 
   return (
@@ -121,7 +121,7 @@ const BarDashboard = React.forwardRef((props, _) => {
           width={800}
           series={[
             {
-              name: "Crime Count",
+              name: "Suç Sayısı",
               data: data.percentages,
             },
           ]}
@@ -130,6 +130,6 @@ const BarDashboard = React.forwardRef((props, _) => {
       </div>
     </div>
   );
-});
+};
 
 export default memo(BarDashboard);

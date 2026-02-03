@@ -27,7 +27,8 @@ const MapControls = ({
           <Button
             key={limit}
             onClick={() => setCrimeLimit(limit)}
-            variant={crimeLimit === limit ? "contained" : "outlined"}>
+            variant={crimeLimit === limit ? "contained" : "outlined"}
+          >
             {limit === 1
               ? "< 15,000"
               : limit === 2

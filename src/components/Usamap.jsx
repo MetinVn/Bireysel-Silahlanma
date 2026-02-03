@@ -1,8 +1,21 @@
-import { useCallback, useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  Suspense,
+  lazy,
+} from "react";
 import * as d3 from "d3";
 import MapControls from "./MapControls.jsx";
 import Tooltip from "./Tooltip.jsx";
-import { getDataByState, categorizeStates, extractStateNames, getDataByStateAndYear } from "../utils/Reuse.js";
+import {
+  getDataByState,
+  categorizeStates,
+  extractStateNames,
+  getDataByStateAndYear,
+} from "../utils/Reuse.js";
 import { useDashboardData } from "../hooks/useDashboardData.jsx";
 import usMapData from "../gz_2010_us_040_00_500k.json";
 import crimeData from "../crime-data.json";
@@ -22,27 +35,45 @@ const USAMap = () => {
   const width = 960;
   const height = 600;
 
-  const getCategorizedStates = useCallback(() => categorizeStates(selectedCategory), [selectedCategory]);
-
-  const { statesBelow15000, statesBetween15000And50000, statesAbove50000 } = useMemo(
-    () => getCategorizedStates(),
-    [getCategorizedStates]
+  const getCategorizedStates = useCallback(
+    () => categorizeStates(selectedCategory),
+    [selectedCategory],
   );
+
+  const { statesBelow15000, statesBetween15000And50000, statesAbove50000 } =
+    useMemo(() => getCategorizedStates(), [getCategorizedStates]);
 
   const statesWithDots = useMemo(() => {
     switch (crimeLimit) {
       case 1:
-        return usMapData.features.filter((d) => statesBelow15000.includes(d.properties.NAME));
+        return usMapData.features.filter((d) =>
+          statesBelow15000.includes(d.properties.NAME),
+        );
       case 2:
-        return usMapData.features.filter((d) => statesBetween15000And50000.includes(d.properties.NAME));
+        return usMapData.features.filter((d) =>
+          statesBetween15000And50000.includes(d.properties.NAME),
+        );
       case 3:
-        return usMapData.features.filter((d) => statesAbove50000.includes(d.properties.NAME));
+        return usMapData.features.filter((d) =>
+          statesAbove50000.includes(d.properties.NAME),
+        );
       default:
         return [];
     }
-  }, [crimeLimit, statesBelow15000, statesBetween15000And50000, statesAbove50000]);
+  }, [
+    crimeLimit,
+    statesBelow15000,
+    statesBetween15000And50000,
+    statesAbove50000,
+  ]);
 
-  const { selectedYear, selectedCity, data, handleYearChange, handleCityChange } = useDashboardData();
+  const {
+    selectedYear,
+    selectedCity,
+    data,
+    handleYearChange,
+    handleCityChange,
+  } = useDashboardData();
 
   const handleCategoryChange = useCallback(
     (e) => {
@@ -50,17 +81,23 @@ const USAMap = () => {
       const crimeValue = getDataByState(hoveredState, e.target.value);
       setTooltipContent(`${hoveredState}: ${crimeValue}`);
     },
-    [hoveredState]
+    [hoveredState],
   );
 
-  const handleHoveredState = useCallback((stateName) => setHoveredState(stateName), []);
+  const handleHoveredState = useCallback(
+    (stateName) => setHoveredState(stateName),
+    [],
+  );
 
   const handleMouseOut = useCallback(() => {
     setTooltipVisible(false);
     setTooltipPos({ x: 0, y: 0 });
   }, []);
 
-  const handleMouseMove = useCallback((event) => setTooltipPos({ x: event.pageX, y: event.pageY }), []);
+  const handleMouseMove = useCallback(
+    (event) => setTooltipPos({ x: event.pageX, y: event.pageY }),
+    [],
+  );
 
   const handleMouseOver = useCallback(
     (event, d) => {
@@ -69,10 +106,10 @@ const USAMap = () => {
       setTooltipPos({ x: event.pageX, y: event.pageY });
       setTooltipVisible(true);
     },
-    [handleHoveredState]
+    [handleHoveredState],
   );
 
-  const toggleDots = useCallback(() => setShowDots((prevShowDots) => !prevShowDots), []);
+  const toggleDots = useCallback(() => setShowDots((prev) => !prev), []);
 
   useEffect(() => {
     const crimeValue = getDataByState(hoveredState, selectedCategory);
@@ -80,7 +117,6 @@ const USAMap = () => {
   }, [hoveredState, selectedCategory]);
 
   const initializeMap = useCallback(() => {
-    console.log("Initialized the map");
     const svg = d3.select(svgRef.current);
     const projection = d3
       .geoAlbersUsa()
@@ -88,10 +124,15 @@ const USAMap = () => {
       .scale(1000);
     const path = d3.geoPath().projection(projection);
 
-    svg.attr("viewBox", `0 0 ${width} ${height}`).style("width", "100%").style("height", "auto");
+    svg
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .style("width", "100%")
+      .style("height", "auto");
+
+    svg.selectAll(".state").remove();
 
     svg
-      .selectAll("path")
+      .selectAll(".state")
       .data(usMapData.features)
       .enter()
       .append("path")
@@ -106,39 +147,65 @@ const USAMap = () => {
 
   const updateColors = useCallback(() => {
     const svg = d3.select(svgRef.current);
+    const stateNames = extractStateNames(crimeData);
+    const crimeValues = stateNames.map((name) =>
+      getDataByStateAndYear(2019, name, selectedCategory),
+    );
 
-    const stateNames2019 = extractStateNames(crimeData);
-    const crimeValues = stateNames2019.map((stateName) => getDataByStateAndYear(2019, stateName, selectedCategory));
-    const maxCrimeValue = d3.max(crimeValues);
-    const minCrimeValue = d3.min(crimeValues);
+    const maxVal = d3.max(crimeValues) || 0;
+    const minVal = d3.min(crimeValues) || 0;
 
-    const colorScale = d3.scaleSequential(d3.interpolateBlues).domain([minCrimeValue, maxCrimeValue]);
+    const colorScale = d3
+      .scaleSequential(d3.interpolateBlues)
+      .domain([minVal, maxVal]);
 
     svg.selectAll(".state").attr("fill", (d) => {
-      const stateName = d.properties.NAME;
-      const stateCrimeValue = getDataByStateAndYear(2019, stateName, selectedCategory);
-      return colorScale(stateCrimeValue || minCrimeValue);
+      const val = getDataByStateAndYear(
+        2019,
+        d.properties.NAME,
+        selectedCategory,
+      );
+      return colorScale(val || minVal);
     });
   }, [selectedCategory]);
 
+  const svg = d3.select(svgRef.current);
   const drawDots = useCallback(() => {
-    const svg = d3.select(svgRef.current);
-    svg.selectAll(".dot").remove();
+    // Clear everything old first
+    svg.selectAll(".dot-group").remove();
     svg.selectAll(".line").remove();
+
+    if (!showDots || statesWithDots.length === 0) return;
 
     const projection = d3
       .geoAlbersUsa()
       .translate([width / 2, height / 2])
       .scale(1000);
 
-    const dots = svg
-      .selectAll(".dot")
+    // Create groups for each location
+    const dotGroups = svg
+      .selectAll(".dot-group")
       .data(statesWithDots)
       .enter()
+      .append("g")
+      .attr("class", "dot-group")
+      .attr("transform", (d) => {
+        const coords = projection(d3.geoCentroid(d));
+        return coords ? `translate(${coords[0]}, ${coords[1]})` : null;
+      });
+
+    // Add Pulsing Ring
+    dotGroups
       .append("circle")
-      .attr("class", "dot pulsing-dot")
-      .attr("cx", (d) => projection(d3.geoCentroid(d))[0])
-      .attr("cy", (d) => projection(d3.geoCentroid(d))[1])
+      .attr("class", "pulsing-ring")
+      .attr("r", 4)
+      .attr("fill", "#2a9d8f")
+      .style("pointer-events", "none");
+
+    // Add Solid Dot
+    dotGroups
+      .append("circle")
+      .attr("class", "dot")
       .attr("r", 3)
       .attr("fill", "#2a9d8f")
       .style("opacity", 0)
@@ -146,16 +213,16 @@ const USAMap = () => {
       .duration(1000)
       .style("opacity", 1);
 
-    if (showDots && dots.size() > 0) {
+    // Draw lines only if multiple dots exist
+    if (statesWithDots.length > 1) {
       const lineGenerator = d3
         .line()
         .x((d) => projection(d3.geoCentroid(d))[0])
         .y((d) => projection(d3.geoCentroid(d))[1]);
-      const lineData = statesWithDots.map((d) => d);
 
       svg
         .append("path")
-        .datum(lineData)
+        .datum(statesWithDots)
         .attr("class", "line")
         .attr("fill", "none")
         .attr("stroke", "#2a9d8f")
@@ -168,7 +235,7 @@ const USAMap = () => {
           return this.getTotalLength();
         })
         .transition()
-        .duration(2000)
+        .duration(1000)
         .ease(d3.easeLinear)
         .style("stroke-dashoffset", 0);
     }
@@ -183,14 +250,8 @@ const USAMap = () => {
   }, [selectedCategory, updateColors]);
 
   useEffect(() => {
-    if (showDots) {
-      drawDots();
-    } else {
-      const svg = d3.select(svgRef.current);
-      svg.selectAll(".dot").remove();
-      svg.selectAll(".line").remove();
-    }
-  }, [showDots, crimeLimit, drawDots]);
+    drawDots();
+  }, [showDots, statesWithDots, drawDots]);
 
   return (
     <div className="relative flex flex-col items-center bg-slate-100">
@@ -203,8 +264,12 @@ const USAMap = () => {
         setCrimeLimit={setCrimeLimit}
       />
       <div className="relative flex flex-col items-center w-full mt-20">
-        <svg ref={svgRef} width={600} height={300}></svg>
-        <Tooltip content={tooltipContent} pos={tooltipPos} visible={tooltipVisible} />
+        <svg ref={svgRef}></svg>
+        <Tooltip
+          content={tooltipContent}
+          pos={tooltipPos}
+          visible={tooltipVisible}
+        />
       </div>
       <div className="w-full flex flex-col items-center px-4">
         <Suspense fallback={<div>Loading BarDashboard...</div>}>

@@ -11,7 +11,8 @@ const Form = ({ label, value, onChange, options, displayOptions = null }) => {
         labelId={`${label}-select-label`}
         value={value}
         onChange={onChange}
-        label={label}>
+        label={label}
+      >
         {options.map((option, index) => (
           <MenuItem key={option} value={option}>
             {displayOptions?.[index] || option}

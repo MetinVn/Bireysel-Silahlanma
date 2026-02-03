@@ -5,11 +5,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ data, year, state, categoryTranslations }) => {
   const filteredData = data.filter(
-    (d) => d.year === year && d.state_name === state
+    (d) => d.year === year && d.state_name === state,
   );
 
   const translatedCategories = categories.map(
-    (cat) => categoryTranslations[cat] || cat
+    (cat) => categoryTranslations[cat] || cat,
   );
 
   const chartData = {
@@ -17,7 +17,7 @@ const PieChart = ({ data, year, state, categoryTranslations }) => {
     datasets: [
       {
         data: categories.map((cat) =>
-          filteredData[0] ? filteredData[0][cat] : 0
+          filteredData[0] ? filteredData[0][cat] : 0,
         ),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
