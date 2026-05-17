@@ -33,7 +33,7 @@ const USAMap = () => {
   const [crimeLimit, setCrimeLimit] = useState(1);
   const [showDots, setShowDots] = useState(false);
   const width = 960;
-  const height = 600;
+  const height = 700;
 
   const getCategorizedStates = useCallback(
     () => categorizeStates(selectedCategory),
