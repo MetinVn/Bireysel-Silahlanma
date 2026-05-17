@@ -43,15 +43,13 @@ const Header = React.memo(() => {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.5 }}
           >
-            <React.Suspense fallback={<div>Loading...</div>}>
-              <Link
-                to="/Bireysel-Silahlanma/details"
-                className="flex flex-row h-full border border-black items-center text-center gap-2 bg-black text-white text-sm px-2 py-2 hover:bg-white hover:text-black duration-300 group"
-              >
-                Detaylar{" "}
-                <LazyIcon className="fill-white p-0 group-hover:fill-black duration-300 group-hover:translate-x-1" />
-              </Link>
-            </React.Suspense>
+            <Link
+              to="/Bireysel-Silahlanma/details"
+              className="flex flex-row h-full border border-black items-center text-center gap-2 bg-black text-white text-sm px-2 py-2 hover:bg-white hover:text-black duration-300 group"
+            >
+              Detaylar{" "}
+              <LazyIcon className="fill-white p-0 group-hover:fill-black duration-300 group-hover:translate-x-1" />
+            </Link>
           </motion.button>
         )}
       </AnimatePresence>
