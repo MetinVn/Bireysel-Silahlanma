@@ -26,7 +26,7 @@ const Hero = memo(() => {
             Bireysel <br /> Silahlanma
           </p>
         </div>
-        <div className='relative flex flex-col mx-auto min-h-[69px] max-w-[500px] min-w-[460px] p-5 font-["Arial"] bg-white shadow-lg shadow-black/30'>
+        <div className='relative flex flex-col mx-auto min-h-[69px] max-w-[500px] p-5 font-["Arial"] bg-white shadow-lg shadow-black/30'>
           <h1 className="text-lg indent-2 font-bold">Yasaları oku...</h1>
           <div className="flex flex-row">
             <React.Suspense fallback={<div>Loading...</div>}>
